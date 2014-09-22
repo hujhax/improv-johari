@@ -1,3 +1,5 @@
+adjectiveArray = ["happy", "sad", "angry", "afraid"];
+
 if (Meteor.isClient) {
   Template.hello.greeting = function () {
     return "Welcome to johari.";
@@ -10,6 +12,10 @@ if (Meteor.isClient) {
         console.log("You pressed the button");
     }
   });
+
+  Template.adjectives.adjective = function () {
+    return adjectiveArray;
+  };
 }
 
 if (Meteor.isServer) {
