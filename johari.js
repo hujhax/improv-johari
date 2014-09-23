@@ -16,6 +16,22 @@ if (Meteor.isClient) {
   Template.adjectives.adjective = function () {
     return adjectiveArray;
   };
+
+  Template.adjectives.events({
+    'click li.adjective': function() {
+        var prevAdjective = Session.get('selectedAdjective');
+        var curAdjective = (prevAdjective == this.name) ? "" : this.name;
+        Session.set('selectedAdjective', curAdjective);
+    },
+  });
+
+  Template.adjectives.isSelected = function() {
+      var selectedAdjective = Session.get('selectedAdjective');
+      var curAdjective = this.name;
+      if (selectedAdjective == curAdjective) {
+          return 'selected';
+      }
+  };
 }
 
 if (Meteor.isServer) {
