@@ -1,4 +1,4 @@
-adjectiveArray = ["happy", "sad", "angry", "afraid"];
+adjectiveArray = [{name: "happy"},{name:"sad"},{name:"angry"},{name:"afraid"}];
 
 if (Meteor.isClient) {
   Template.hello.greeting = function () {
