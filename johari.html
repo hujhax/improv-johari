@@ -17,7 +17,7 @@
 <template name="adjectives">
     <UL>
         {{#each adjective}}
-            <LI>{{name}}</LI>
+            <LI class="adjective {{isSelected}}">{{name}}</LI>
         {{/each}}
     </UL>
 </template>
