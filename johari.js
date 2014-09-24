@@ -19,16 +19,25 @@ if (Meteor.isClient) {
 
     Template.adjectives.events({
         'click li.adjective': function() {
-            var prevAdjective = Session.get('selectedAdjective');
-            var curAdjective = (prevAdjective == this.name) ? "" : this.name;
-            Session.set('selectedAdjective', curAdjective);
+            var selectedAdjectives = Session.get('selectedAdjectives') || [];
+            var newSelection = [];
+
+            if (_.contains(selectedAdjectives, this.name)) {
+                newSelection = _.without(selectedAdjectives, this.name);
+            }
+            else {
+                newSelection = selectedAdjectives;
+                newSelection.push(this.name);
+            }
+
+            Session.set('selectedAdjectives', newSelection);
         },
     });
 
     Template.adjectives.isSelected = function() {
-        var selectedAdjective = Session.get('selectedAdjective');
+        var selectedAdjectives = Session.get('selectedAdjectives');
         var curAdjective = this.name;
-        if (selectedAdjective == curAdjective) {
+        if (_.contains(selectedAdjectives, this.name)) {
             return 'selected';
         }
     };
