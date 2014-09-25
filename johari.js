@@ -31,14 +31,27 @@ if (Meteor.isClient) {
     };
 
     Template.adjectives.numSelected = function () {
-        var selectedAdjectives = Session.get('selectedAdjectives');
+        var selectedAdjectives = Session.get('selectedAdjectives') || [];
         return selectedAdjectives.length;
     };
 
     Template.adjectives.validSelection = function () {
-        var selectedAdjectives = Session.get('selectedAdjectives');
+        var selectedAdjectives = Session.get('selectedAdjectives') || [];
         return selectedAdjectives.length == 3;
     };
+
+    Template.makeGuids.events({
+        'click input.generate-guid': function () {
+            var newGUID = GPW.pronounceable(6);
+            Session.set('guid', newGUID);
+        }
+    });
+
+    Template.makeGuids.guid = function () {
+        var curGUID = Session.get('guid') || "";
+        return curGUID;
+    };
+
 }
 
 if (Meteor.isServer) {
