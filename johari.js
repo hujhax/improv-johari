@@ -3,14 +3,14 @@ adjectiveArray = [{name: "happy"},{name:"sad"},{name:"angry"},{name:"afraid"}];
 if (Meteor.isClient) {
     Router.map(function () {
         this.route('create', {path: '/'});
-        this.route('view', {path: 'my-johari'});
-        this.route('submit');
+        this.route('view', {path: 'my-johari/:_id'});
+        this.route('submit', {path: '/:_id'});
         this.route('submitted');
     });
 
     Template.adjectives.adjective = function() {
         return adjectiveArray;
-    };
+    };  
 
     Template.adjectives.events({
         'click li.adjective': function() {
@@ -59,6 +59,13 @@ if (Meteor.isClient) {
         return curGUID;
     };
 
+    Template.view.curID = function () {
+        return Router.current().params._id;
+    };
+
+    Template.submit.curID = function () {
+        return Router.current().params._id;
+    };
 }
 
 if (Meteor.isServer) {
