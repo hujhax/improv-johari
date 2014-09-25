@@ -31,12 +31,12 @@ if (Meteor.isClient) {
     };
 
     Template.adjectives.numSelected = function () {
-        var selectedAdjectives = Session.get('selectedAdjectives');
+        var selectedAdjectives = Session.get('selectedAdjectives') || [];
         return selectedAdjectives.length;
     };
 
     Template.adjectives.validSelection = function () {
-        var selectedAdjectives = Session.get('selectedAdjectives');
+        var selectedAdjectives = Session.get('selectedAdjectives') || [];
         return selectedAdjectives.length == 3;
     };
 }
