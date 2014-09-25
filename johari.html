@@ -6,6 +6,8 @@
     <h1>Improv Johari!</h1>
     
     {{> adjectives}}
+    
+    {{> makeGuids}}
 </body>
 
 <template name="adjectives">
@@ -23,4 +25,12 @@
         {{/if}}
 
     </UL>
+</template>
+
+<template name="makeGuids">
+    <input type="button" class="generate-guid" value="Generate GUID">
+    <br>
+    <p>
+        GUID: {{guid}}
+    </p>
 </template>
