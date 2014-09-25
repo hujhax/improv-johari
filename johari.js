@@ -41,6 +41,11 @@ if (Meteor.isClient) {
             return 'selected';
         }
     };
+
+    Template.adjectives.numSelected = function () {
+        var selectedAdjectives = Session.get('selectedAdjectives');
+        return selectedAdjectives.length;
+    }
 }
 
 if (Meteor.isServer) {
