@@ -2,13 +2,13 @@
     <title>Improv Johari</title>
 </head>
 
-<body>
+<template name="create">
     <h1>Improv Johari!</h1>
     
     {{> adjectives}}
     
     {{> makeGuids}}
-</body>
+</template>
 
 <template name="adjectives">
     <UL>
@@ -33,4 +33,16 @@
     <p>
         GUID: {{guid}}
     </p>
+</template>
+
+<template name="view">
+    <h1>You've created a Johari Window!</h1>
+</template>
+
+<template name="submit">
+    <h1>Submit your adjectives here!</h1>
+</template>
+
+<template name="submitted">
+    <h1>You've submitted adjectives!</h1>
 </template>

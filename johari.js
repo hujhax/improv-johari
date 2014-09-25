@@ -1,6 +1,13 @@
 adjectiveArray = [{name: "happy"},{name:"sad"},{name:"angry"},{name:"afraid"}];
 
 if (Meteor.isClient) {
+    Router.map(function () {
+        this.route('create', {path: '/'});
+        this.route('view', {path: 'my-johari'});
+        this.route('submit');
+        this.route('submitted');
+    });
+
     Template.adjectives.adjective = function() {
         return adjectiveArray;
     };
