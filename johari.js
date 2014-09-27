@@ -100,4 +100,14 @@ if (Meteor.isServer) {
             return {guid: newGUID};
         }
     });
+
+    Meteor.publish('userName', function(guid) {
+        return Names.find({guid: guid});
+    });
+
+    Meteor.publish('userAdjectives', function(guid) {
+        return Adjectives.find({guid: guid});
+    });
+
+
 }
