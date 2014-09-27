@@ -98,6 +98,10 @@ if (Meteor.isClient) {
         return Adjectives.find({self: false}).fetch();
     };
 
+    Template.submit.loadData = function() {
+        Meteor.subscribe('userName', Router.current().params._publicGUID);
+    };
+
     Template.submit.curID = function () {
         return Router.current().params._publicGUID;
     };
@@ -128,5 +132,7 @@ if (Meteor.isServer) {
         return Adjectives.find({privateGUID: privateGUID});
     });
 
-
+    Meteor.publish('userName', function(publicGUID) {
+        return Names.find({publicGUID: publicGUID}, {fields: {privateGUID: 0}}); // keep the privateGUID private
+    });
 }
