@@ -126,6 +126,14 @@ if (Meteor.isServer) {
                 Adjectives.insert({privateGUID: privateGUID, self: true, adjective: adjective});
             });
             return {privateGUID: privateGUID};
+        },
+        'addAdjectives': function(publicGUID, adjectives) {
+            var privateGUID = Names.find({publicGUID: publicGUID}).fetch()[0].privateGUID;
+
+            _(adjectives).forEach(function(adjective) {
+                Adjectives.insert({privateGUID: privateGUID, self: false, adjective: adjective});
+            });
+            return {privateGUID: privateGUID};
         }
     });
 
