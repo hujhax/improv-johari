@@ -110,6 +110,17 @@ if (Meteor.isClient) {
     Template.submit.curID = function () {
         return Router.current().params._publicGUID;
     };
+
+    Template.submit.respondToAdjectiveButton = function () {
+        if (Session.get("adjectiveButtonMonitor") == 1) {
+            Session.set("adjectiveButtonMonitor", 0);
+            var adjectives = Session.get('selectedAdjectives') || [];
+            Meteor.call("addAdjectives", Router.current().params._publicGUID, adjectives, function(error, result) {
+                Router.go('submitted');
+            });
+        }
+        return null;
+    };
 }
 
 if (Meteor.isServer) {
