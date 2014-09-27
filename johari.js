@@ -102,6 +102,11 @@ if (Meteor.isClient) {
         Meteor.subscribe('userName', Router.current().params._publicGUID);
     };
 
+    Template.submit.name = function () {
+        var nameRecord = Names.find().fetch()[0];
+        return (nameRecord) ? nameRecord.name : null;
+    };
+
     Template.submit.curID = function () {
         return Router.current().params._publicGUID;
     };
