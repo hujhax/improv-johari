@@ -45,9 +45,22 @@
 </template>
 
 <template name="view">
+    {{loadData}}
     <h1>You've created a Johari Window!</h1>
 
-    Your ID is {{curID}}.
+    <p>Your ID is {{curID}}.</p>
+
+    <p>Your name is {{name}}.</p>
+
+    <p>Here are the adjectives you have applied to yourself:
+    {{#each selfAdjectives}}
+        <LI>{{adjective}} / {{self}}</LI>
+    {{/each}}</p>
+
+    <p>Here are the adjectives your friends have chosen for you:
+    {{#each friendAdjectives}}
+        <LI>{{adjective}} / {{self}}</LI>
+    {{/each}}</p>
 </template>
 
 <template name="submit">
