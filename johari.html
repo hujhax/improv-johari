@@ -24,12 +24,13 @@
             <LI class="adjective {{isSelected}}">{{name}}</LI>
         {{/each}}
 
-        {{#if validSelection}}
-            <input type="button" value="Create Your Window!" />
-        {{else}}
-            <input type="button" disabled value="Pick Three Adjectives!" />
-        {{/if}}
-
+        <form>
+            {{#if validSelection}}
+                <input type="submit" value="Create Your Window!" />
+            {{else}}
+                <input type="submit" disabled value="Pick Three Adjectives!" />
+            {{/if}}
+        </form>
     </UL>
 </template>
 

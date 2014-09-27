@@ -27,6 +27,10 @@ if (Meteor.isClient) {
 
             Session.set('selectedAdjectives', newSelection);
         },
+        'submit form': function(theEvent) {
+            console.log("you submitted the form!");
+            theEvent.preventDefault();
+        }
     });
 
     Template.adjectives.isSelected = function() {
