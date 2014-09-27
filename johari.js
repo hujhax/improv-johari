@@ -7,8 +7,8 @@ Adjectives = new Meteor.Collection("adjectives");
 if (Meteor.isClient) {
     Router.map(function () {
         this.route('create', {path: '/'});
-        this.route('view', {path: 'my-johari/:_id'});
-        this.route('submit', {path: '/:_id'});
+        this.route('view', {path: 'my-johari/:_privateGUID'});
+        this.route('submit', {path: '/:_publicGUID'});
         this.route('submitted');
     });
 
@@ -70,19 +70,19 @@ if (Meteor.isClient) {
             var username = Session.get("username");
             var adjectives = Session.get('selectedAdjectives') || [];
             Meteor.call("createUser", username, adjectives, function(error, result) {
-                Router.go('view', {_id: result.guid});
+                Router.go('view', {_privateGUID: result.privateGUID});
             });
         }
         return null;
     };
 
     Template.view.curID = function () {
-        return Router.current().params._id;
+        return Router.current().params._privateGUID;
     };
 
     Template.view.loadData = function() {
-        Meteor.subscribe('userName', Router.current().params._id);
-        Meteor.subscribe('userAdjectives', Router.current().params._id);
+        Meteor.subscribe('userPrivateData', Router.current().params._privateGUID);
+        Meteor.subscribe('userAdjectives', Router.current().params._privateGUID);
     };
 
     Template.view.name = function () {
@@ -98,8 +98,28 @@ if (Meteor.isClient) {
         return Adjectives.find({self: false}).fetch();
     };
 
+    Template.submit.loadData = function() {
+        Meteor.subscribe('userName', Router.current().params._publicGUID);
+    };
+
+    Template.submit.name = function () {
+        var nameRecord = Names.find().fetch()[0];
+        return (nameRecord) ? nameRecord.name : null;
+    };
+
     Template.submit.curID = function () {
-        return Router.current().params._id;
+        return Router.current().params._publicGUID;
+    };
+
+    Template.submit.respondToAdjectiveButton = function () {
+        if (Session.get("adjectiveButtonMonitor") == 1) {
+            Session.set("adjectiveButtonMonitor", 0);
+            var adjectives = Session.get('selectedAdjectives') || [];
+            Meteor.call("addAdjectives", Router.current().params._publicGUID, adjectives, function(error, result) {
+                Router.go('submitted');
+            });
+        }
+        return null;
     };
 }
 
@@ -110,22 +130,33 @@ if (Meteor.isServer) {
 
     Meteor.methods({
         'createUser': function(username, adjectives) {
-            var newGUID = GPW.pronounceable(6);
-            Names.insert({name: username, guid: newGUID});
+            var publicGUID = GPW.pronounceable(6);
+            var privateGUID = GPW.pronounceable(6);
+            Names.insert({name: username, publicGUID: publicGUID, privateGUID: privateGUID});
             _(adjectives).forEach(function(adjective) {
-                Adjectives.insert({guid: newGUID, self: true, adjective: adjective});
+                Adjectives.insert({privateGUID: privateGUID, self: true, adjective: adjective});
             });
-            return {guid: newGUID};
+            return {privateGUID: privateGUID};
+        },
+        'addAdjectives': function(publicGUID, adjectives) {
+            var privateGUID = Names.find({publicGUID: publicGUID}).fetch()[0].privateGUID;
+
+            _(adjectives).forEach(function(adjective) {
+                Adjectives.insert({privateGUID: privateGUID, self: false, adjective: adjective});
+            });
+            return {privateGUID: privateGUID};
         }
     });
 
-    Meteor.publish('userName', function(guid) {
-        return Names.find({guid: guid});
+    Meteor.publish('userPrivateData', function(privateGUID) {
+        return Names.find({privateGUID: privateGUID});
     });
 
-    Meteor.publish('userAdjectives', function(guid) {
-        return Adjectives.find({guid: guid});
+    Meteor.publish('userAdjectives', function(privateGUID) {
+        return Adjectives.find({privateGUID: privateGUID});
     });
 
-
+    Meteor.publish('userName', function(publicGUID) {
+        return Names.find({publicGUID: publicGUID}, {fields: {privateGUID: 0}}); // keep the privateGUID private
+    });
 }

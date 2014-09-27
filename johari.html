@@ -64,9 +64,15 @@
 </template>
 
 <template name="submit">
-    <h1>Submit your adjectives here!</h1>
+    {{loadData}}
+
+    <h1>Submit your adjectives for {{name}} here!</h1>
 
     Your ID is {{curID}}.
+
+    {{> adjectives}}
+ 
+    {{respondToAdjectiveButton}}
 </template>
 
 <template name="submitted">
