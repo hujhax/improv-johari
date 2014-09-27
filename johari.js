@@ -28,8 +28,9 @@ if (Meteor.isClient) {
             Session.set('selectedAdjectives', newSelection);
         },
         'submit form': function(theEvent) {
-            console.log("you submitted the form!");
             theEvent.preventDefault();
+            var newGUID = GPW.pronounceable(6);
+            Router.go('view', {_id: newGUID});
         }
     });
 
