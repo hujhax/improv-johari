@@ -1,5 +1,9 @@
 adjectiveArray = [{name: "happy"},{name:"sad"},{name:"angry"},{name:"afraid"}];
 
+Names = new Meteor.Collection("names");
+Adjectives = new Meteor.Collection("adjectives");
+
+
 if (Meteor.isClient) {
     Router.map(function () {
         this.route('create', {path: '/'});
@@ -100,9 +104,11 @@ if (Meteor.isServer) {
     Meteor.methods({
         'createUser': function(username, adjectives) {
             var newGUID = GPW.pronounceable(6);
+            Names.insert({name: username, guid: newGUID});
+            _(adjectives).forEach(function(adjective) {
+                Adjectives.insert({guid: newGUID, self: true, adjective: adjective});
+            });
             return {guid: newGUID};
-            // Names.insert({name: "xxxx", id: newGUID});
-            // Router.go('view', {_id: newGUID});
         }
     });
 }
