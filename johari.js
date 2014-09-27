@@ -62,9 +62,11 @@ if (Meteor.isClient) {
     Template.create.respondToAdjectiveButton = function () {
         if (Session.get("adjectiveButtonMonitor") == 1) {
             Session.set("adjectiveButtonMonitor", 0);
-            var newGUID = GPW.pronounceable(6);
-            // Names.insert({name: "xxxx", id: newGUID});
-            Router.go('view', {_id: newGUID});
+            var username = Session.get("username");
+            var adjectives = Session.get('selectedAdjectives') || [];
+            Meteor.call("createUser", username, adjectives, function(error, result) {
+                Router.go('view', {_id: result.guid});
+            });
         }
         return null;
     };
@@ -93,5 +95,14 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
     Meteor.startup(function() {
         // code to run on server at startup
+    });
+
+    Meteor.methods({
+        'createUser': function(username, adjectives) {
+            var newGUID = GPW.pronounceable(6);
+            return {guid: newGUID};
+            // Names.insert({name: "xxxx", id: newGUID});
+            // Router.go('view', {_id: newGUID});
+        }
     });
 }
