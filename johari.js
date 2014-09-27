@@ -80,6 +80,24 @@ if (Meteor.isClient) {
         return Router.current().params._id;
     };
 
+    Template.view.loadData = function() {
+        Meteor.subscribe('userName', Router.current().params._id);
+        Meteor.subscribe('userAdjectives', Router.current().params._id);
+    };
+
+    Template.view.name = function () {
+        var nameRecord = Names.find().fetch()[0];
+        return (nameRecord) ? nameRecord.name : null;
+    };
+
+    Template.view.selfAdjectives = function () {
+        return Adjectives.find({self: true}).fetch();
+    };
+
+    Template.view.friendAdjectives = function () {
+        return Adjectives.find({self: false}).fetch();
+    };
+
     Template.submit.curID = function () {
         return Router.current().params._id;
     };
@@ -100,4 +118,14 @@ if (Meteor.isServer) {
             return {guid: newGUID};
         }
     });
+
+    Meteor.publish('userName', function(guid) {
+        return Names.find({guid: guid});
+    });
+
+    Meteor.publish('userAdjectives', function(guid) {
+        return Adjectives.find({guid: guid});
+    });
+
+
 }
