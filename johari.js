@@ -62,7 +62,8 @@ if (Meteor.isClient) {
         'blur .name': function(theEvent, theTemplate) {
             Session.set("username", theTemplate.find('.name').value);
         }
-    })
+    });
+    
     Template.create.respondToAdjectiveButton = function () {
         if (Session.get("adjectiveButtonMonitor") == 1) {
             Session.set("adjectiveButtonMonitor", 0);
@@ -73,18 +74,6 @@ if (Meteor.isClient) {
             });
         }
         return null;
-    };
-
-    Template.makeGuids.events({
-        'click input.generate-guid': function () {
-            var newGUID = GPW.pronounceable(6);
-            Session.set('guid', newGUID);
-        }
-    });
-
-    Template.makeGuids.guid = function () {
-        var curGUID = Session.get('guid') || "";
-        return curGUID;
     };
 
     Template.view.curID = function () {
