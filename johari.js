@@ -8,6 +8,8 @@ if (Meteor.isClient) {
         this.route('submitted');
     });
 
+    Session.set("adjectiveButtonMonitor", 0);
+
     Template.adjectives.adjective = function() {
         return adjectiveArray;
     };  
@@ -29,8 +31,7 @@ if (Meteor.isClient) {
         },
         'submit form': function(theEvent) {
             theEvent.preventDefault();
-            var newGUID = GPW.pronounceable(6);
-            Router.go('view', {_id: newGUID});
+            Session.set("adjectiveButtonMonitor", 1); // toggle value
         }
     });
 
@@ -50,6 +51,16 @@ if (Meteor.isClient) {
     Template.adjectives.validSelection = function () {
         var selectedAdjectives = Session.get('selectedAdjectives') || [];
         return selectedAdjectives.length == 3;
+    };
+
+    Template.create.respondToAdjectiveButton = function () {
+        if (Session.get("adjectiveButtonMonitor") == 1) {
+            Session.set("adjectiveButtonMonitor", 0);
+            var newGUID = GPW.pronounceable(6);
+            // Names.insert({name: "xxxx", id: newGUID});
+            Router.go('view', {_id: newGUID});
+        }
+        return null;
     };
 
     Template.makeGuids.events({
