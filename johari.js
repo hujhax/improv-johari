@@ -9,6 +9,7 @@ if (Meteor.isClient) {
     });
 
     Session.set("adjectiveButtonMonitor", 0);
+    Session.set("username", "");
 
     Template.adjectives.adjective = function() {
         return adjectiveArray;
@@ -53,6 +54,11 @@ if (Meteor.isClient) {
         return selectedAdjectives.length == 3;
     };
 
+    Template.create.events({
+        'blur .name': function(theEvent, theTemplate) {
+            Session.set("username", theTemplate.find('.name').value);
+        }
+    })
     Template.create.respondToAdjectiveButton = function () {
         if (Session.get("adjectiveButtonMonitor") == 1) {
             Session.set("adjectiveButtonMonitor", 0);
