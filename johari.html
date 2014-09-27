@@ -3,11 +3,19 @@
 </head>
 
 <template name="create">
-    <h1>Improv Johari!</h1>
+    {{> title}}
+
+    <h3>Create an improv-Johari window</h3>
     
+    First, enter your name: 
+    <input type="text" name="name"/><br>
+
+    Now, pick three adjectives that describe what you're good at in improv:
     {{> adjectives}}
-    
-    {{> makeGuids}}
+</template>
+
+<template name="title">
+    <h1>Improv Johari!</h1>
 </template>
 
 <template name="adjectives">
@@ -16,12 +24,10 @@
             <LI class="adjective {{isSelected}}">{{name}}</LI>
         {{/each}}
 
-        {{numSelected}}
-
         {{#if validSelection}}
-            <input type="button" value="Click" />
+            <input type="button" value="Create Your Window!" />
         {{else}}
-            <input type="button" disabled value="Click" />
+            <input type="button" disabled value="Pick Three Adjectives!" />
         {{/if}}
 
     </UL>
