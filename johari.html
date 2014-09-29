@@ -44,15 +44,27 @@
 
     <p>Your name is {{name}}.</p>
 
-    <p>Here are the adjectives you have applied to yourself:
-    {{#each selfAdjectives}}
-        <LI>{{adjective}} / {{self}}</LI>
+    {{#with tallies}}
+        <p>Here is your 'arena' -- adjectives both you and your friends chose:
+        {{#each arena}}
+            <LI>{{.}}</LI>
     {{/each}}</p>
 
-    <p>Here are the adjectives your friends have chosen for you:
-    {{#each friendAdjectives}}
-        <LI>{{adjective}} / {{self}}</LI>
+        <p>Here is your 'façade' -- adjectives that you chose, but your friends didn't:
+        {{#each façade}}
+            <LI>{{.}}</LI>
     {{/each}}</p>
+
+        <p>Here is your 'blind spot' -- adjectives your friends chose, but you didn't:
+        {{#each blindSpot}}
+            <LI>{{.}}</LI>
+        {{/each}}</p>
+
+        <p>Here are the adjectives no one chose:
+        {{#each unknown}}
+            <LI>{{.}}</LI>
+        {{/each}}</p>
+    {{/with}}
 </template>
 
 <template name="submit">
