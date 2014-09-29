@@ -5,6 +5,10 @@ Adjectives = new Meteor.Collection("adjectives");
 
 
 if (Meteor.isClient) {
+    arrayMinusArray = function(x, y) {
+        return _.without.apply(_, [x].concat(y));
+    };
+
     Router.map(function () {
         this.route('create', {path: '/'});
         this.route('view', {path: 'my-johari/:_privateGUID'});
@@ -90,12 +94,31 @@ if (Meteor.isClient) {
         return (nameRecord) ? nameRecord.name : null;
     };
 
-    Template.view.selfAdjectives = function () {
-        return Adjectives.find({self: true}).fetch();
-    };
+    Template.view.tallies = function () {
+        var tallies = {
+            arena: [],
+            blindSpot: [],
+            façade: [],
+            unknown: []
+        };
 
-    Template.view.friendAdjectives = function () {
-        return Adjectives.find({self: false}).fetch();
+        var selfAdjectives = _.pluck(Adjectives.find({self: true}).fetch(), "adjective");
+        var friendData = Adjectives.find({self: false}).fetch();
+        var friendTallies = _.countBy(friendData, function(entry) {return entry.adjective; });
+        var friendAdjectives = Object.keys(friendTallies);
+
+        tallies.arena = _.intersection(selfAdjectives, friendAdjectives);
+        tallies.blindSpot = arrayMinusArray(friendAdjectives, selfAdjectives);
+        tallies.façade = arrayMinusArray(selfAdjectives, friendAdjectives);
+        tallies.unknown = arrayMinusArray(_.pluck(adjectiveArray, "name"), selfAdjectives.concat(friendAdjectives));
+
+        _.forEach(["arena", "blindSpot"], function(key) {
+            tallies[key] = _.map(tallies[key], function(adjective) {
+                return adjective + ": (" + friendTallies[adjective] + ")";
+            });
+        });
+
+        return tallies;
     };
 
     Template.submit.loadData = function() {
