@@ -1,16 +1,15 @@
 <head>
-    <title>Improv Johari</title>
+    <title>Improv Johari!</title>
 </head>
 
 <template name="create">
     {{> title}}
 
-    <h3>Create an improv-Johari window</h3>
-    
-    First, enter your name: 
-    <input class="name" type="text"/><br>
+    {{> explanation}}
 
-    Now, pick three adjectives that describe what you're good at in improv:
+    <p>Want to give it a shot?  First, enter your name: <input class="name" type="text"/></p>
+
+    <p>Next, pick five or six improv things that you think you're good at from the list below:</p>
     {{> adjectives}}
  
     {{respondToAdjectiveButton}}
@@ -20,59 +19,83 @@
     <h1>Improv Johari!</h1>
 </template>
 
+<template name="explanation">
+    <p>This website lets you create an improv <a href="http://en.wikipedia.org/wiki/Johari_window">"Johari Window"</a>!  Here's how a Johari Window works: first, you pick out a half-dozen things you think you're good at.  Then, your friends each (anonymously) pick out a half-dozen things that *they* think you're good at.  Meanwhile, you (and you alone) can keep track of how your choices match up with theirs (or how they don't).</p>
+
+    <p>Since this is geared towards improvisors, it lists skills used in improvisation. :)</p>
+</template>
+
 <template name="adjectives">
     <UL>
         {{#each adjective}}
             <LI class="adjective {{isSelected}}">{{name}}</LI>
         {{/each}}
-
-        <form>
-            {{#if validSelection}}
-                <input type="submit" value="Create Your Window!" />
-            {{else}}
-                <input type="submit" disabled value="Pick Three Adjectives!" />
-            {{/if}}
-        </form>
     </UL>
+
+    <p>... and once you've picked the items you want, click this button:</p>
+
+    <form>
+        {{#if validSelection}}
+            <input type="submit" value="Submit your choices!" />
+        {{else}}
+            <input type="submit" disabled value="Submit your choices!" />
+        {{/if}}
+    </form>
 </template>
 
 <template name="view">
     {{loadData}}
-    <h1>You've created a Johari Window!</h1>
+    {{> title}}
 
-    <p>Your ID is {{curID}}.</p>
-
-    <p>Your name is {{name}}.</p>
+    <p>Hi {{name}}!  Here's your Johari window!</p>
 
     {{#with tallies}}
-        <p>Here is your 'arena' -- adjectives both you and your friends chose:
+        <p>Arena:
         {{#each arena}}
             <LI>{{.}}</LI>
-    {{/each}}</p>
+        {{/each}}</p>
 
-        <p>Here is your 'façade' -- adjectives that you chose, but your friends didn't:
+        <p>Façade:
         {{#each façade}}
             <LI>{{.}}</LI>
-    {{/each}}</p>
+        {{/each}}</p>
 
-        <p>Here is your 'blind spot' -- adjectives your friends chose, but you didn't:
+        <p>Blind Spot:
         {{#each blindSpot}}
             <LI>{{.}}</LI>
         {{/each}}</p>
 
-        <p>Here are the adjectives no one chose:
+        <p>Unknown:
         {{#each unknown}}
             <LI>{{.}}</LI>
         {{/each}}</p>
     {{/with}}
+
+    <p>You'll see that it's split into four quadrants:
+        <UL>
+            <LI>The "Arena" includes items that both you and your friends chose.</LI>
+            <LI>The "Blind Spot" includes items that *only* your friends chose.</LI>
+            <LI>The "Façade" includes items that *only* you friends chose.</LI>
+            <LI>The "Unknown" includes all the items that nobody chose.</LI>
+        </UL>
+    </p>
+
+    <p>In the "Arena" and "Blind Spot", each item includes a tally of how many of your friends picked that one.</p>
+
+    <p>Speaking of your friends, here's the public page you should share with your friends, so that they can pick what *they* think you're good at:<br>
+    [[link]]</p>
+
+    <p>... and you can always check on the results here at this private page (keep this to yourself, unless you want your friends to see all the results):<br>
+    [[link]]</p>
 </template>
 
 <template name="submit">
     {{loadData}}
+    {{> title}}
 
-    <h1>Submit your adjectives for {{name}} here!</h1>
+    <p>{{name}} has asked you to contribute to their Johari Window!</p>
 
-    Your ID is {{curID}}.
+    <p>Please pick five or six improv things that you think {{name}} is good at from the list below:</p>
 
     {{> adjectives}}
  
@@ -80,5 +103,13 @@
 </template>
 
 <template name="submitted">
-    <h1>You've submitted adjectives!</h1>
+    {{> title}}
+
+    <p>Thanks for contributing to this Johari Window.</p>
+
+    <p>"Wait, what... what did I just do?"</p>
+
+    {{> explanation}}
+
+    To create your *own* Johari Window, <a href="{{ pathFor 'create' }}">click here</a>.
 </template>
