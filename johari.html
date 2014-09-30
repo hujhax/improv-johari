@@ -56,33 +56,46 @@
     <p>Hi {{name}}!  Here's your Johari window!</p>
 
     {{#with tallies}}
-        <p>Arena:
-        <UL>
-        {{#each arena}}
-            <LI>{{.}}</LI>
-        {{/each}}
-        </UL></p>
+        <table class = "johari-table">
+            <tr>
+                <td class="johari-quadrant arena">
+                    <div class="quadrant-heading">Arena:</div>
+                    <UL class="quadrant-list">
+                    {{#each arena}}
+                        <LI>{{.}}</LI>
+                    {{/each}}
+                    </UL>
+                </td>
 
-        <p>Façade:
-        <UL>
-        {{#each façade}}
-            <LI>{{.}}</LI>
-        {{/each}}
-        </UL></p>
-        
-        <p>Blind Spot:
-        <UL>
-        {{#each blindSpot}}
-            <LI>{{.}}</LI>
-        {{/each}}
-        </UL></p>
+                <td class="johari-quadrant facade">
+                    <div class="quadrant-heading">Façade:</div>
+                    <UL class="quadrant-list">
+                    {{#each façade}}
+                        <LI>{{.}}</LI>
+                    {{/each}}
+                    </UL>
+                </td>
+            </tr>
+            <tr>
+                <td class="johari-quadrant blind-spot">
+                    <div class="quadrant-heading">Blind Spot:</div>
+                    <UL class="quadrant-list">
+                    {{#each blindSpot}}
+                        <LI>{{.}}</LI>
+                    {{/each}}
+                    </UL>
+                </td>
 
-        <p>Unknown:
-        <UL>
-        {{#each unknown}}
-            <LI>{{.}}</LI>
-        {{/each}}
-        </UL></p>
+                <td class="johari-quadrant unknown">
+                    <div class="quadrant-heading">Unknown:</div>
+                    <UL class="quadrant-list">
+                    {{#each unknown}}
+                        <LI>{{.}}</LI>
+                    {{/each}}
+                    </UL>
+                </td>
+            </tr>
+        </table>
     {{/with}}
 
     <p>You'll see that it's split into four quadrants:

@@ -1,4 +1,36 @@
 /* CSS declarations go here */
 .selected {
-    background-color: #ccc;
+    background: #ccc;
+}
+
+.johari-table {
+    width: 1000px;
+}
+
+.johari-quadrant {
+    vertical-align: top;
+}
+
+.quadrant-heading {
+    font-weight: bold;
+}
+
+.quadrant-list {
+    list-style-type: none;
+}
+
+.arena {
+    background: #fdc;
+}
+
+.blind-spot {
+    background: #dcf;
+}
+
+.facade {
+    background: #cfd;
+}
+
+.unknown {
+    background: #ddd;
 }
