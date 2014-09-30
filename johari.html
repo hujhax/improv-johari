@@ -13,6 +13,8 @@
     {{> adjectives}}
  
     {{respondToAdjectiveButton}}
+    
+    {{> footer}}
 </template>
 
 <template name="title">
@@ -41,6 +43,10 @@
             <input type="submit" disabled value="Submit your choices!" />
         {{/if}}
     </form>
+</template>
+
+<template name="footer">
+    <small><p>This was built by <a href="http://www.linkedin.com/profile/view?id=12382650">Peter Rogers</a> using <a href="http://www.meteor.com/">meteor.js</a>.  It's based pretty directly on <a href="http://kevan.org/johari">the original Johari Window site</a> by <a href="http://kevan.org/">Kevan Davis</a>.</p></small>
 </template>
 
 <template name="view">
@@ -87,6 +93,8 @@
 
     <p>... and you can always check on the results here at this private page (keep this to yourself, unless you want your friends to see all the results):<br>
     [[link]]</p>
+    
+    {{> footer}}
 </template>
 
 <template name="submit">
@@ -100,6 +108,8 @@
     {{> adjectives}}
  
     {{respondToAdjectiveButton}}
+    
+    {{> footer}}
 </template>
 
 <template name="submitted">
@@ -112,4 +122,6 @@
     {{> explanation}}
 
     To create your *own* Johari Window, <a href="{{ pathFor 'create' }}">click here</a>.
+    
+    {{> footer}}
 </template>
