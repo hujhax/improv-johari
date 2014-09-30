@@ -73,10 +73,10 @@
                     </UL>
                 </td>
 
-                <td class="johari-quadrant facade">
-                    <div class="quadrant-heading">Façade:</div>
+                <td class="johari-quadrant blind-spot">
+                    <div class="quadrant-heading">Blind Spot:</div>
                     <UL class="quadrant-list">
-                    {{#each façade}}
+                    {{#each blindSpot}}
                         <LI>{{.}}</LI>
                     {{/each}}
                     </UL>
@@ -84,10 +84,10 @@
             </tr>
             <tr>
                 <td class="header row-header"><p>Unknown to Friends</p></td>
-                <td class="johari-quadrant blind-spot">
-                    <div class="quadrant-heading">Blind Spot:</div>
+                <td class="johari-quadrant facade">
+                    <div class="quadrant-heading">Façade:</div>
                     <UL class="quadrant-list">
-                    {{#each blindSpot}}
+                    {{#each façade}}
                         <LI>{{.}}</LI>
                     {{/each}}
                     </UL>
@@ -109,7 +109,7 @@
         <UL>
             <LI>The "Arena" includes items that both you and your friends chose.</LI>
             <LI>The "Blind Spot" includes items that *only* your friends chose.</LI>
-            <LI>The "Façade" includes items that *only* you friends chose.</LI>
+            <LI>The "Façade" includes items that *only* you chose.</LI>
             <LI>The "Unknown" includes all the items that nobody chose.</LI>
         </UL>
     </p>
