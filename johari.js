@@ -114,7 +114,7 @@ if (Meteor.isClient) {
 
         _.forEach(["arena", "blindSpot"], function(key) {
             tallies[key] = _.map(tallies[key], function(adjective) {
-                return adjective + ": (" + friendTallies[adjective] + ")";
+                return adjective + " (" + friendTallies[adjective] + ")";
             });
         });
 
