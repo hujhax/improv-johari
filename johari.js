@@ -1,15 +1,19 @@
-adjectiveArray = [{name: "happy"},{name:"sad"},{name:"angry"},{name:"afraid"}];
+adjectiveArray = [{name: "accepted"}, {name: "accomplished"}, {name: "aggravated"}, {name: "alone"}, {name: "amused"}, {name: "angry"}, {name: "annoyed"}, {name: "anxious"}, {name: "apathetic"}, {name: "ashamed"}, {name: "awake"}, {name: "bewildered"}, {name: "bitchy"}, {name: "bittersweet"}, {name: "blah"}, {name: "blank"}, {name: "blissful"}, {name: "bored"}, {name: "bouncy"}, {name: "calm"}, {name: "cheerful"}, {name: "chipper"}, {name: "cold"}, {name: "complacent"}, {name: "confused"}, {name: "content"}, {name: "cranky"}, {name: "crappy"}, {name: "crazy"}, {name: "crushed"}, {name: "curious"}, {name: "cynical"}, {name: "dark"}, {name: "depressed"}, {name: "determined"}, {name: "devious"}, {name: "dirty"}, {name: "disappointed"}, {name: "discontent"}, {name: "ditzy"}, {name: "dorky"}, {name: "drained"}, {name: "drunk"}, {name: "ecstatic"}, {name: "energetic"}, {name: "enraged"}, {name: "enthralled"}, {name: "envious"}, {name: "exanimate"}, {name: "excited"}, {name: "exhausted"}, {name: "flirty"}, {name: "frustrated"}, {name: "full"}, {name: "geeky"}, {name: "giddy"}, {name: "giggly"}, {name: "gloomy"}, {name: "good"}, {name: "grateful"}, {name: "groggy"}, {name: "grumpy"}, {name: "guilty"}, {name: "happy"}, {name: "high"}, {name: "hopeful"}, {name: "hot"}, {name: "hungry"}, {name: "hyper"}, {name: "impressed"}, {name: "indescribable"}, {name: "indifferent"}, {name: "infuriated"}, {name: "irate"}, {name: "irritated"}, {name: "jealous"}, {name: "jubilant"}, {name: "lazy"}, {name: "lethargic"}, {name: "listless"}, {name: "lonely"}, {name: "loved"}, {name: "mad"}, {name: "melancholy"}, {name: "mellow"}, {name: "mischievous"}, {name: "moody"}, {name: "morose"}, {name: "naughty"}, {name: "nerdy"}, {name: "numb"}, {name: "okay"}, {name: "optimistic"}, {name: "peaceful"}, {name: "pessimistic"}, {name: "pissed off"}, {name: "pleased"}, {name: "predatory"}, {name: "quixotic"}, {name: "recumbent"}, {name: "refreshed"}, {name: "rejected"}, {name: "rejuvenated"}, {name: "relaxed"}, {name: "relieved"}, {name: "restless"}, {name: "rushed"}, {name: "sad"}, {name: "satisfied"}, {name: "shocked"}, {name: "sick"}, {name: "silly"}, {name: "sleepy"}, {name: "smart"}, {name: "stressed"}, {name: "surprised"}, {name: "sympathetic"}, {name: "thankful"}, {name: "tired"}, {name: "touched"}, {name: "uncomfortable"}, {name: "weird"}]
 
 Names = new Meteor.Collection("names");
 Adjectives = new Meteor.Collection("adjectives");
 
 
 if (Meteor.isClient) {
+    arrayMinusArray = function(x, y) {
+        return _.without.apply(_, [x].concat(y));
+    };
+
     Router.map(function () {
         this.route('create', {path: '/'});
         this.route('view', {path: 'my-johari/:_privateGUID'});
+        this.route('submitted', {path: '/submitted'});
         this.route('submit', {path: '/:_publicGUID'});
-        this.route('submitted');
     });
 
     Session.set("adjectiveButtonMonitor", 0);
@@ -90,12 +94,41 @@ if (Meteor.isClient) {
         return (nameRecord) ? nameRecord.name : null;
     };
 
-    Template.view.selfAdjectives = function () {
-        return Adjectives.find({self: true}).fetch();
+    Template.view.publicLink = function () {
+        var nameRecord = Names.find().fetch()[0];
+        return Router.routes['submit'].url({_publicGUID: nameRecord.publicGUID});
     };
 
-    Template.view.friendAdjectives = function () {
-        return Adjectives.find({self: false}).fetch();
+    Template.view.privateLink = function () {
+        var nameRecord = Names.find().fetch()[0];
+        return Router.routes['view'].url({_privateGUID: nameRecord.privateGUID});
+    };
+
+    Template.view.tallies = function () {
+        var tallies = {
+            arena: [],
+            blindSpot: [],
+            façade: [],
+            unknown: []
+        };
+
+        var selfAdjectives = _.pluck(Adjectives.find({self: true}).fetch(), "adjective");
+        var friendData = Adjectives.find({self: false}).fetch();
+        var friendTallies = _.countBy(friendData, function(entry) {return entry.adjective; });
+        var friendAdjectives = Object.keys(friendTallies);
+
+        tallies.arena = _.intersection(selfAdjectives, friendAdjectives);
+        tallies.blindSpot = arrayMinusArray(friendAdjectives, selfAdjectives);
+        tallies.façade = arrayMinusArray(selfAdjectives, friendAdjectives);
+        tallies.unknown = arrayMinusArray(_.pluck(adjectiveArray, "name"), selfAdjectives.concat(friendAdjectives));
+
+        _.forEach(["arena", "blindSpot"], function(key) {
+            tallies[key] = _.map(tallies[key], function(adjective) {
+                return adjective + " (" + friendTallies[adjective] + ")";
+            });
+        });
+
+        return tallies;
     };
 
     Template.submit.loadData = function() {

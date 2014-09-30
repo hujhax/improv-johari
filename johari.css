@@ -1,4 +1,71 @@
 /* CSS declarations go here */
-.selected {
-    background-color: #ccc;
+body {
+    padding: 30px;
+}
+
+.johari-table {
+    width: 1000px;
+}
+
+.johari-quadrant {
+    vertical-align: top;
+    padding: 6px;
+}
+
+.quadrant-heading {
+    font-weight: bold;
+}
+
+.quadrant-list {
+    list-style-type: none;
+    margin-left: 0;
+}
+
+.row-header {
+    width: 10%;
+}
+
+.header {
+    font-weight: bold;
+    text-align: center;
+    background: #fbfbfb;
+}
+
+.johari-table td {
+    border: 1px #eee solid;
+}
+
+.arena {
+    background: #fdc;
+}
+
+.blind-spot {
+    background: #dcf;
+}
+
+.facade {
+    background: #cfd;
+}
+
+.unknown {
+    background: #ddd;
+}
+
+.adjective-list {
+    list-style-type: none;
+    width: 60%;
+    margin-left: 5%;
+}
+
+.adjective-list li {
+    border: 1px solid black;
+    display: inline-block;
+    border-radius: 5px;
+    padding: 3px;
+    margin-bottom: 4px;
+    background: #fdc;   
+}
+
+.adjective-list li.selected {
+    background: #dfc;
 }
