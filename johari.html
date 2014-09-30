@@ -57,24 +57,32 @@
 
     {{#with tallies}}
         <p>Arena:
+        <UL>
         {{#each arena}}
             <LI>{{.}}</LI>
-        {{/each}}</p>
+        {{/each}}
+        </UL></p>
 
         <p>Façade:
+        <UL>
         {{#each façade}}
             <LI>{{.}}</LI>
-        {{/each}}</p>
-
+        {{/each}}
+        </UL></p>
+        
         <p>Blind Spot:
+        <UL>
         {{#each blindSpot}}
             <LI>{{.}}</LI>
-        {{/each}}</p>
+        {{/each}}
+        </UL></p>
 
         <p>Unknown:
+        <UL>
         {{#each unknown}}
             <LI>{{.}}</LI>
-        {{/each}}</p>
+        {{/each}}
+        </UL></p>
     {{/with}}
 
     <p>You'll see that it's split into four quadrants:
