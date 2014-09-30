@@ -12,8 +12,8 @@ if (Meteor.isClient) {
     Router.map(function () {
         this.route('create', {path: '/'});
         this.route('view', {path: 'my-johari/:_privateGUID'});
+        this.route('submitted', {path: '/submitted'});
         this.route('submit', {path: '/:_publicGUID'});
-        this.route('submitted');
     });
 
     Session.set("adjectiveButtonMonitor", 0);
