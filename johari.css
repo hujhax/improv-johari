@@ -19,6 +19,20 @@
     list-style-type: none;
 }
 
+.row-header {
+    width: 10%;
+}
+
+.header {
+    font-weight: bold;
+    text-align: center;
+    background: #fbfbfb;
+}
+
+.johari-table td {
+    border: 1px #eee solid;
+}
+
 .arena {
     background: #fdc;
 }
