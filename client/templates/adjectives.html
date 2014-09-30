@@ -1,0 +1,17 @@
+<template name="adjectives">
+    <UL class="adjective-list">
+        {{#each adjective}}
+            <LI class="adjective {{isSelected}}">{{name}}</LI>
+        {{/each}}
+    </UL>
+
+    <p>... and once you've picked the items you want, click this button:</p>
+
+    <form>
+        {{#if validSelection}}
+            <input type="submit" value="Submit your choices!" />
+        {{else}}
+            <input type="submit" disabled value="Submit your choices!" />
+        {{/if}}
+    </form>
+</template>
