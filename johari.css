@@ -9,6 +9,7 @@
 
 .johari-quadrant {
     vertical-align: top;
+    padding: 6px;
 }
 
 .quadrant-heading {
@@ -17,6 +18,7 @@
 
 .quadrant-list {
     list-style-type: none;
+    margin-left: 0;
 }
 
 .row-header {
