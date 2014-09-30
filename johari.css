@@ -3,10 +3,6 @@ body {
     padding: 30px;
 }
 
-.selected {
-    background: #ccc;
-}
-
 .johari-table {
     width: 1000px;
 }
@@ -53,4 +49,23 @@ body {
 
 .unknown {
     background: #ddd;
+}
+
+.adjective-list {
+    list-style-type: none;
+    width: 60%;
+    margin-left: 5%;
+}
+
+.adjective-list li {
+    border: 1px solid black;
+    display: inline-block;
+    border-radius: 5px;
+    padding: 3px;
+    margin-bottom: 4px;
+    background: #fdc;   
+}
+
+.adjective-list li.selected {
+    background: #dfc;
 }
