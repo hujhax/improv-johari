@@ -11,6 +11,7 @@ Router.map(function () {
 
 Session.set("adjectiveChoiceMonitor", 0);
 Session.set("username", "");
+Session.set("selectedAdjectives", []);
 
 Template.adjectiveChooser.adjectives = function() {
     return allAdjectives;
@@ -18,7 +19,7 @@ Template.adjectiveChooser.adjectives = function() {
 
 Template.adjectiveChooser.events({
     'click li.adjective': function() {
-        var selectedAdjectives = Session.get('selectedAdjectives') || [];
+        var selectedAdjectives = Session.get('selectedAdjectives');
         var newSelection = [];
 
         if (_.contains(selectedAdjectives, this.name)) {
@@ -46,12 +47,12 @@ Template.adjectiveChooser.isSelected = function() {
 };
 
 Template.adjectiveChooser.numSelected = function () {
-    var selectedAdjectives = Session.get('selectedAdjectives') || [];
+    var selectedAdjectives = Session.get('selectedAdjectives');
     return selectedAdjectives.length;
 };
 
 Template.adjectiveChooser.validSelection = function () {
-    var selectedAdjectives = Session.get('selectedAdjectives') || [];
+    var selectedAdjectives = Session.get('selectedAdjectives');
     return selectedAdjectives.length == 3;
 };
 
@@ -65,7 +66,7 @@ Template.create.respondToAdjectiveChoice = function () {
     if (Session.get("adjectiveChoiceMonitor") == 1) {
         Session.set("adjectiveChoiceMonitor", 0);
         var username = Session.get("username");
-        var adjectives = Session.get('selectedAdjectives') || [];
+        var adjectives = Session.get('selectedAdjectives');
         Meteor.call("createUser", username, adjectives, function(error, result) {
             Router.go('view', {_privateGUID: result.privateGUID});
         });
@@ -133,7 +134,7 @@ Template.submit.name = function () {
 Template.submit.respondToAdjectiveChoice = function () {
     if (Session.get("adjectiveChoiceMonitor") == 1) {
         Session.set("adjectiveChoiceMonitor", 0);
-        var adjectives = Session.get('selectedAdjectives') || [];
+        var adjectives = Session.get('selectedAdjectives');
         Meteor.call("addAdjectives", Router.current().params._publicGUID, adjectives, function(error, result) {
             Router.go('submitted');
         });
