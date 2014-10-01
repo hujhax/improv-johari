@@ -53,7 +53,7 @@ Template.adjectiveChooser.numSelected = function () {
 
 Template.adjectiveChooser.validSelection = function () {
     var selectedAdjectives = Session.get('selectedAdjectives');
-    return selectedAdjectives.length == 3;
+    return isValidNumberOfChoices(selectedAdjectives.length);
 };
 
 Template.create.events({

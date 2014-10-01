@@ -4,3 +4,7 @@ allAdjectives = [{name: "accepted"}, {name: "accomplished"}, {name: "aggravated"
 
 Names = new Meteor.Collection("names");
 Adjectives = new Meteor.Collection("adjectives");
+
+isValidNumberOfChoices = function(len) {
+    return (len == 5) || (len == 6);
+}
