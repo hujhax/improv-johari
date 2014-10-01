@@ -86,12 +86,12 @@ Template.view.name = function () {
 
 Template.view.publicLink = function () {
     var nameRecord = Names.find().fetch()[0];
-    return Router.routes['submit'].url({_publicGUID: nameRecord.publicGUID});
+    return nameRecord ? Router.routes['submit'].url({_publicGUID: nameRecord.publicGUID}) : "";
 };
 
 Template.view.privateLink = function () {
     var nameRecord = Names.find().fetch()[0];
-    return Router.routes['view'].url({_privateGUID: nameRecord.privateGUID});
+    return nameRecord ? Router.routes['view'].url({_privateGUID: nameRecord.privateGUID}) : "";
 };
 
 Template.view.tallies = function () {
