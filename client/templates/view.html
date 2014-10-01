@@ -1,0 +1,75 @@
+<template name="view">
+    {{loadData}}
+    {{> title}}
+
+    <p>Hi {{name}}!  Here's your Johari window!</p>
+
+    {{#with tallies}}
+        <table class = "johari-table">
+            <tr>
+                <td class="header"></td>
+                <td class="header"><p>Known to You</p></td>
+                <td class="header"><p>Unknown to You</p></td>
+            </tr>
+            <tr>
+                <td class="header row-header"><p>Known to Friends</p></td>
+                <td class="johari-quadrant arena">
+                    <div class="quadrant-heading">Arena:</div>
+                    <UL class="quadrant-list">
+                    {{#each arena}}
+                        <LI>{{.}}</LI>
+                    {{/each}}
+                    </UL>
+                </td>
+
+                <td class="johari-quadrant blind-spot">
+                    <div class="quadrant-heading">Blind Spot:</div>
+                    <UL class="quadrant-list">
+                    {{#each blindSpot}}
+                        <LI>{{.}}</LI>
+                    {{/each}}
+                    </UL>
+                </td>
+            </tr>
+            <tr>
+                <td class="header row-header"><p>Unknown to Friends</p></td>
+                <td class="johari-quadrant facade">
+                    <div class="quadrant-heading">Façade:</div>
+                    <UL class="quadrant-list">
+                    {{#each façade}}
+                        <LI>{{.}}</LI>
+                    {{/each}}
+                    </UL>
+                </td>
+
+                <td class="johari-quadrant unknown">
+                    <div class="quadrant-heading">Unknown:</div>
+                    <UL class="quadrant-list">
+                    {{#each unknown}}
+                        <LI>{{.}}</LI>
+                    {{/each}}
+                    </UL>
+                </td>
+            </tr>
+        </table>
+    {{/with}}
+
+    <p>You'll see that it's split into four quadrants:
+        <UL>
+            <LI>The "Arena" includes items that both you and your friends chose.</LI>
+            <LI>The "Blind Spot" includes items that *only* your friends chose.</LI>
+            <LI>The "Façade" includes items that *only* you chose.</LI>
+            <LI>The "Unknown" includes all the items that nobody chose.</LI>
+        </UL>
+    </p>
+
+    <p>In the "Arena" and "Blind Spot", each item includes a tally of how many of your friends picked that one.</p>
+
+    <p>Speaking of your friends, here's the public page you should share with your friends, so that they can pick what *they* think you're good at:<br>
+    <a href="{{publicLink}}">{{publicLink}}</a></p>
+
+    <p>... and you can always check on the results here at this private page (keep this to yourself, unless you want your friends to see all the results):<br>
+    <a href="{{privateLink}}">{{privateLink}}</a></p>
+    
+    {{> footer}}
+</template>

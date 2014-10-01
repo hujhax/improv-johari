@@ -1,0 +1,14 @@
+<template name="submit">
+    {{loadData}}
+    {{> title}}
+
+    <p>{{name}} has asked you to contribute to their Johari Window!</p>
+
+    <p>Please pick five or six improv things that you think {{name}} is good at from the list below:</p>
+
+    {{> adjectiveChooser}}
+ 
+    {{respondToAdjectiveChoice}}
+    
+    {{> footer}}
+</template>
