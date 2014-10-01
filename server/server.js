@@ -1,7 +1,3 @@
-Meteor.startup(function() {
-    // code to run on server at startup
-});
-
 Meteor.methods({
     'createUser': function(username, adjectives) {
         var publicGUID = GPW.pronounceable(6);

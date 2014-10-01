@@ -73,10 +73,6 @@ Template.create.respondToAdjectiveButton = function () {
     return null;
 };
 
-Template.view.curID = function () {
-    return Router.current().params._privateGUID;
-};
-
 Template.view.loadData = function() {
     Meteor.subscribe('userPrivateData', Router.current().params._privateGUID);
     Meteor.subscribe('userAdjectives', Router.current().params._privateGUID);
@@ -131,10 +127,6 @@ Template.submit.loadData = function() {
 Template.submit.name = function () {
     var nameRecord = Names.find().fetch()[0];
     return (nameRecord) ? nameRecord.name : null;
-};
-
-Template.submit.curID = function () {
-    return Router.current().params._publicGUID;
 };
 
 Template.submit.respondToAdjectiveButton = function () {
