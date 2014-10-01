@@ -1,20 +1,32 @@
+cleanAdjectiveSet = function(adjectiveSet) {
+    return _(adjectiveSet).uniq().intersection(_.pluck(allAdjectives, "name")).value();
+}
+
 Meteor.methods({
     'createUser': function(username, adjectives) {
-        var publicGUID = GPW.pronounceable(6);
-        var privateGUID = GPW.pronounceable(6);
-        Names.insert({name: username, publicGUID: publicGUID, privateGUID: privateGUID});
-        _(adjectives).forEach(function(adjective) {
-            Adjectives.insert({privateGUID: privateGUID, self: true, adjective: adjective});
-        });
-        return {privateGUID: privateGUID};
+        adjectives = cleanAdjectiveSet(adjectives);
+
+        if (isValidNumberOfChoices(adjectives.length)) {
+            var publicGUID = GPW.pronounceable(6);
+            var privateGUID = GPW.pronounceable(6);
+            Names.insert({name: username, publicGUID: publicGUID, privateGUID: privateGUID});
+            _(adjectives).forEach(function(adjective) {
+                Adjectives.insert({privateGUID: privateGUID, self: true, adjective: adjective});
+            });
+            return {privateGUID: privateGUID};
+        }
     },
     'addAdjectives': function(publicGUID, adjectives) {
-        var privateGUID = Names.find({publicGUID: publicGUID}).fetch()[0].privateGUID;
+        adjectives = cleanAdjectiveSet(adjectives);
 
-        _(adjectives).forEach(function(adjective) {
-            Adjectives.insert({privateGUID: privateGUID, self: false, adjective: adjective});
-        });
-        return {privateGUID: privateGUID};
+        if (isValidNumberOfChoices(adjectives.length)) {
+            var privateGUID = Names.find({publicGUID: publicGUID}).fetch()[0].privateGUID;
+
+            _(adjectives).forEach(function(adjective) {
+                Adjectives.insert({privateGUID: privateGUID, self: false, adjective: adjective});
+            });
+            return {privateGUID: privateGUID};
+        }
     }
 });
 

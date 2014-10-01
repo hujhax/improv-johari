@@ -53,7 +53,7 @@ Template.adjectiveChooser.numSelected = function () {
 
 Template.adjectiveChooser.validSelection = function () {
     var selectedAdjectives = Session.get('selectedAdjectives');
-    return selectedAdjectives.length == 3;
+    return isValidNumberOfChoices(selectedAdjectives.length);
 };
 
 Template.create.events({
@@ -86,12 +86,12 @@ Template.view.name = function () {
 
 Template.view.publicLink = function () {
     var nameRecord = Names.find().fetch()[0];
-    return Router.routes['submit'].url({_publicGUID: nameRecord.publicGUID});
+    return nameRecord ? Router.routes['submit'].url({_publicGUID: nameRecord.publicGUID}) : "";
 };
 
 Template.view.privateLink = function () {
     var nameRecord = Names.find().fetch()[0];
-    return Router.routes['view'].url({_privateGUID: nameRecord.privateGUID});
+    return nameRecord ? Router.routes['view'].url({_privateGUID: nameRecord.privateGUID}) : "";
 };
 
 Template.view.tallies = function () {
@@ -102,8 +102,8 @@ Template.view.tallies = function () {
         unknown: []
     };
 
-    var selfAdjectives = _.pluck(Adjectives.find({self: true}).fetch(), "adjective");
-    var friendData = Adjectives.find({self: false}).fetch();
+    var selfAdjectives = _.pluck(Adjectives.find({self: true}, {sort: ["adjective", "asc"]}).fetch(), "adjective");
+    var friendData = Adjectives.find({self: false}, {sort: ["adjective", "asc"]}).fetch();
     var friendTallies = _.countBy(friendData, function(entry) {return entry.adjective; });
     var friendAdjectives = Object.keys(friendTallies);
     var allChosenAdjectives = selfAdjectives.concat(friendAdjectives);
@@ -111,7 +111,7 @@ Template.view.tallies = function () {
     tallies.arena = _.intersection(selfAdjectives, friendAdjectives);
     tallies.blindSpot = arrayMinusArray(friendAdjectives, selfAdjectives);
     tallies.façade = arrayMinusArray(selfAdjectives, friendAdjectives);
-    tallies.unknown = arrayMinusArray(_.pluck(allAdjectives, "name"), allChosenAdjectives);
+    tallies.unknown = arrayMinusArray(_(allAdjectives).pluck("name").sort().value(), allChosenAdjectives);
 
     _.forEach(["arena", "blindSpot"], function(key) {
         tallies[key] = _.map(tallies[key], function(adjective) {

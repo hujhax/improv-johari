@@ -29,10 +29,16 @@ body {
     font-weight: bold;
     text-align: center;
     background: #fbfbfb;
+    white-space: nowrap;
+    padding: 6px;
 }
 
 .johari-table td {
     border: 1px #eee solid;
+}
+
+.johari-table li {
+    white-space: nowrap;
 }
 
 .arena {
@@ -49,6 +55,14 @@ body {
 
 .unknown {
     background: #ddd;
+}
+
+.unknown li {
+    display: inline-block;
+}
+
+.unknown li:not(:last-child):after {
+    content: ",";
 }
 
 .adjective-list {
