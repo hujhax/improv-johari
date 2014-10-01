@@ -9,14 +9,14 @@ Router.map(function () {
     this.route('submit', {path: '/:_publicGUID'});
 });
 
-Session.set("adjectiveButtonMonitor", 0);
+Session.set("adjectiveChoiceMonitor", 0);
 Session.set("username", "");
 
-Template.adjectives.adjective = function() {
-    return adjectiveArray;
-};  
+Template.adjectiveChooser.adjectives = function() {
+    return allAdjectives;
+}; 
 
-Template.adjectives.events({
+Template.adjectiveChooser.events({
     'click li.adjective': function() {
         var selectedAdjectives = Session.get('selectedAdjectives') || [];
         var newSelection = [];
@@ -33,11 +33,11 @@ Template.adjectives.events({
     },
     'submit form': function(theEvent) {
         theEvent.preventDefault();
-        Session.set("adjectiveButtonMonitor", 1); // toggle value
+        Session.set("adjectiveChoiceMonitor", 1); // toggle choice-response
     }
 });
 
-Template.adjectives.isSelected = function() {
+Template.adjectiveChooser.isSelected = function() {
     var selectedAdjectives = Session.get('selectedAdjectives');
     var curAdjective = this.name;
     if (_.contains(selectedAdjectives, this.name)) {
@@ -45,12 +45,12 @@ Template.adjectives.isSelected = function() {
     }
 };
 
-Template.adjectives.numSelected = function () {
+Template.adjectiveChooser.numSelected = function () {
     var selectedAdjectives = Session.get('selectedAdjectives') || [];
     return selectedAdjectives.length;
 };
 
-Template.adjectives.validSelection = function () {
+Template.adjectiveChooser.validSelection = function () {
     var selectedAdjectives = Session.get('selectedAdjectives') || [];
     return selectedAdjectives.length == 3;
 };
@@ -61,9 +61,9 @@ Template.create.events({
     }
 });
 
-Template.create.respondToAdjectiveButton = function () {
-    if (Session.get("adjectiveButtonMonitor") == 1) {
-        Session.set("adjectiveButtonMonitor", 0);
+Template.create.respondToAdjectiveChoice = function () {
+    if (Session.get("adjectiveChoiceMonitor") == 1) {
+        Session.set("adjectiveChoiceMonitor", 0);
         var username = Session.get("username");
         var adjectives = Session.get('selectedAdjectives') || [];
         Meteor.call("createUser", username, adjectives, function(error, result) {
@@ -105,11 +105,12 @@ Template.view.tallies = function () {
     var friendData = Adjectives.find({self: false}).fetch();
     var friendTallies = _.countBy(friendData, function(entry) {return entry.adjective; });
     var friendAdjectives = Object.keys(friendTallies);
+    var allChosenAdjectives = selfAdjectives.concat(friendAdjectives);
 
     tallies.arena = _.intersection(selfAdjectives, friendAdjectives);
     tallies.blindSpot = arrayMinusArray(friendAdjectives, selfAdjectives);
     tallies.façade = arrayMinusArray(selfAdjectives, friendAdjectives);
-    tallies.unknown = arrayMinusArray(_.pluck(adjectiveArray, "name"), selfAdjectives.concat(friendAdjectives));
+    tallies.unknown = arrayMinusArray(_.pluck(allAdjectives, "name"), allChosenAdjectives);
 
     _.forEach(["arena", "blindSpot"], function(key) {
         tallies[key] = _.map(tallies[key], function(adjective) {
@@ -129,9 +130,9 @@ Template.submit.name = function () {
     return (nameRecord) ? nameRecord.name : null;
 };
 
-Template.submit.respondToAdjectiveButton = function () {
-    if (Session.get("adjectiveButtonMonitor") == 1) {
-        Session.set("adjectiveButtonMonitor", 0);
+Template.submit.respondToAdjectiveChoice = function () {
+    if (Session.get("adjectiveChoiceMonitor") == 1) {
+        Session.set("adjectiveChoiceMonitor", 0);
         var adjectives = Session.get('selectedAdjectives') || [];
         Meteor.call("addAdjectives", Router.current().params._publicGUID, adjectives, function(error, result) {
             Router.go('submitted');
