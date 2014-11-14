@@ -1,5 +1,5 @@
 /*
-* Danger Derby Grunt file
+* Improv Johari Grunt file
 */
 
 module.exports = function(grunt) {
