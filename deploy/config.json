@@ -1,0 +1,5 @@
+{
+  "bundleFile"                      : "johari.tgz",
+  "herokuAppDirectory"              : "../heroku/johari",
+  "deploymentNodeModulesDirectory"  : "/programs/server/node_modules"
+}
